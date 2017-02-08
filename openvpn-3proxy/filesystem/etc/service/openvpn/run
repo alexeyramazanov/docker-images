@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "Starting openvpn..."
+exec openvpn --config /etc/openvpn/openvpn.conf 2>&1

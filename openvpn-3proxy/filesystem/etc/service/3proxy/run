@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "Starting 3proxy..."
+exec /usr/local/bin/3proxy /etc/3proxy.cfg 2>&1
