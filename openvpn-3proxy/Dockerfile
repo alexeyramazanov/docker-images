@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-ARG PROXY_VERSION=0.8.8
+ARG PROXY_VERSION=0.8.12
 
 RUN set -ex \
 	\
