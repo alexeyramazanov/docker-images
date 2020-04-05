@@ -10,12 +10,16 @@ env:
 
 jobs:
   build_and_publish:
+    name: Build and publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
+      - name: Change directory
+        run: cd openvpn-3proxy
+
       - name: Build image
-        run: docker build . --file openvpn-3proxy/Dockerfile --tag image
+        run: docker build . --file Dockerfile --tag image
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
