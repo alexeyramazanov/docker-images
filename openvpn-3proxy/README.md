@@ -1,4 +1,3 @@
-
 ![Build & publish openvpn-3proxy](https://github.com/alexeyramazanov/docker-images/workflows/Build%20&%20publish%20openvpn-3proxy/badge.svg)
 
 ## Description

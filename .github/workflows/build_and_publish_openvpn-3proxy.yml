@@ -1,8 +1,8 @@
 name: Build & publish openvpn-3proxy
 
 on:
-    push:
-      paths:
+  push:
+    paths:
       - 'openvpn-3proxy/**'
 
 env:
@@ -15,10 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Change directory
-        run: cd openvpn-3proxy
-
       - name: Build image
+        working-directory: ./openvpn-3proxy
         run: docker build . --file Dockerfile --tag image
 
       - name: Log into registry
@@ -30,13 +28,18 @@ jobs:
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
+
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
+
           docker tag image $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
