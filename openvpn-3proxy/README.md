@@ -15,7 +15,13 @@ docker build . -t openvpn-3proxy
 ### Run
 
 ```bash
-docker run -v $(pwd)/openvpn:/etc/openvpn -v $(pwd)/3proxy.cfg:/etc/3proxy.cfg -p <OPENVPN_PORT>:<OPENVPN_PORT> --cap-add=NET_ADMIN openvpn-3proxy
+docker run -v $(pwd)/openvpn:/etc/openvpn -v $(pwd)/3proxy/3proxy.cfg:/etc/3proxy.cfg -p <OPENVPN_PORT>:<OPENVPN_PORT> --cap-add=NET_ADMIN openvpn-3proxy
+```
+
+or
+
+```bash
+docker-compose up -d
 ```
 
 ### Configuration example
@@ -53,7 +59,7 @@ tls-auth ta.key 0
 # security
 cipher AES-256-CBC
 auth SHA256
-comp-lzo # adaptive compression
+compress lz4
 
 ### user/group
 user nobody
