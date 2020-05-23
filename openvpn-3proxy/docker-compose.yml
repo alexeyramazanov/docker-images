@@ -1,0 +1,13 @@
+version: '3'
+services:
+  openvpn-3proxy:
+    image: openvpn-3proxy
+    container_name: openvpn-3proxy
+    volumes:
+      - ./:/etc/openvpn
+      - ./3proxy.cfg:/etc/3proxy.cfg
+    ports:
+      - 3498:3498
+    cap_add:
+      - NET_ADMIN
+    restart: always

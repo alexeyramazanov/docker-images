@@ -55,10 +55,6 @@ cipher AES-256-CBC
 auth SHA256
 comp-lzo # adaptive compression
 
-### use system default buffer sizes (can be removed in 2.3.9)
-sndbuf 0
-rcvbuf 0
-
 ### user/group
 user nobody
 group nogroup
