@@ -50,6 +50,7 @@ dev tun
 proto udp
 port 1194
 server 10.8.0.0 255.255.255.0
+topology subnet
 
 ### keys
 ca ca.crt
@@ -59,9 +60,8 @@ dh dh.pem
 tls-auth ta.key 0
 
 # security
-cipher AES-256-CBC
+cipher AES-256-GCM
 auth SHA256
-compress lz4
 
 ### user/group
 user nobody

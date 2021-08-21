@@ -1,3 +1,13 @@
 #!/bin/sh
 echo "Starting OpenVPN..."
+
+# Fix "ERROR: Cannot open TUN/TAP dev /dev/net/tun: No such file or directory (errno=2)" error
+mkdir -p /dev/net
+if [ ! -c /dev/net/tun ]; then
+    mknod /dev/net/tun c 10 200
+fi
+
+# Allow to use relative paths in openvpn.conf
+cd /etc/openvpn
+
 exec openvpn --config /etc/openvpn/openvpn.conf 2>&1
