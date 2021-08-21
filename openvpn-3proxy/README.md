@@ -42,10 +42,12 @@ setuid 65534
 
 #### OpenVPN (openvpn.conf)
 
+Use [easy-rsa](https://github.com/OpenVPN/easy-rsa) to generate keys.
+
 ```
 ### core
 dev tun
-proto tcp
+proto udp
 port 1194
 server 10.8.0.0 255.255.255.0
 
@@ -53,7 +55,7 @@ server 10.8.0.0 255.255.255.0
 ca ca.crt
 cert server.crt
 key server.key
-dh dh2048.pem
+dh dh.pem
 tls-auth ta.key 0
 
 # security
@@ -83,3 +85,7 @@ reneg-sec 86400
 #verb 5
 #log-append server.log
 ```
+
+### Notes
+
+Runit logic partially taken from [phusion/baseimage-docker](https://github.com/phusion/baseimage-docker).

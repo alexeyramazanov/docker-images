@@ -9,6 +9,7 @@ sv_stop() {
   done
 }
 
+# catch ctrl+c and other signals to gracefully shutdown all running services
 trap "sv_stop; exit" SIGTERM
 trap "sv_stop; exit" SIGINT
 
