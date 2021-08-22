@@ -1,0 +1,44 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: main
+
+services:
+  reverse-proxy:
+    image: traefik:v2.5.1
+    container_name: traefik
+    command:
+      - --api.dashboard=true
+      - --providers.docker.exposedByDefault=false
+      - --entryPoints.web.address=:80
+      - --entryPoints.websecure.address=:443
+      - --certificatesresolvers.lets-encrypt.acme.email=CHANGE@ME.COM
+      - --certificatesresolvers.lets-encrypt.acme.storage=acme.json
+      - --certificatesresolvers.lets-encrypt.acme.httpchallenge.entrypoint=web
+      - --global.checknewversion=true
+      - --global.sendanonymoususage=false
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./acme.json:/acme.json
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard-https.service=api@internal"
+      - "traefik.http.routers.dashboard-https.entrypoints=websecure"
+      - "traefik.http.routers.dashboard-https.rule=Host(`TRAEFIK.CHANGEME.COM`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard-https.middlewares=dashboard-auth"
+      - "traefik.http.routers.dashboard-https.tls=true"
+      - "traefik.http.routers.dashboard-https.tls.certresolver=lets-encrypt"
+      - "traefik.http.routers.dashboard-http.service=api@internal"
+      - "traefik.http.routers.dashboard-http.entrypoints=web"
+      - "traefik.http.routers.dashboard-http.rule=Host(`TRAEFIK.CHANGEME.COM`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard-http.middlewares=http2https"
+      - "traefik.http.middlewares.dashboard-auth.digestauth.users=username:traefik:abcdabcdabcdabcdabcdabcdabcdabcd"
+      - "traefik.http.middlewares.dashboard-auth.digestauth.realm=traefik"
+      - "traefik.http.middlewares.http2https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.http2https.redirectscheme.permanent=true"

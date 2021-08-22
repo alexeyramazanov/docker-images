@@ -1,3 +1,7 @@
+# DEPRECATED
+
+Use traefik instead.
+
 ## Description
 
 Nginx proxy with automated Let's Encrypt.
